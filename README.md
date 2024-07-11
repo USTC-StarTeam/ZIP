@@ -1,5 +1,7 @@
 # ZIP
 
+![Motivation](assets/motivation.png)
+
 This is the project for our paper [Entropy Law: The Story Behind Data Compression and LLM Performance](https://arxiv.org/abs/2407.06645).
 
 
