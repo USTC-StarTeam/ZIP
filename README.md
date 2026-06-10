@@ -94,9 +94,16 @@ The main selection budget is controlled by `--budget`. Larger pools and larger c
 
 ## 10. Experimental Highlights
 
-- The paper studies why sample combinations matter for LLM data selection.
-- ZIP is designed to reduce information redundancy rather than scoring each sample independently.
-- The selected subset can be used with standard instruction-tuning and evaluation pipelines.
+The paper studies why sample combinations matter for LLM data selection. ZIP is designed to reduce information redundancy rather than scoring each sample independently.
+
+| Backbone | Random MT-Bench | Strongest listed non-ZIP baseline | ZIP MT-Bench | ZIP cost | Avg. token length |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Mistral-7B SFT | 6.85 | 6.91 (Cluster) | **7.08** | 4.5h CPU-only | 543 |
+| Llama-3-8B SFT | 7.16 | 7.18 (Cluster) | **7.28** | 4.5h CPU-only | 470 |
+
+The paper further reports that ZIP is among the least expensive non-random methods and does not require proprietary LLM scoring or a proxy model. Its entropy-law analysis shows that lower compression ratio correlates with better downstream performance, supporting the idea that selected sample combinations should reduce redundant information.
+
+**Conclusion:** ZIP improves instruction-tuning data selection by modeling subset-level information overlap, not only individual-sample quality.
 
 ## 11. Notes For Maintainers
 

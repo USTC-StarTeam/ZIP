@@ -166,11 +166,38 @@
 <h2 id="9-configuration-notes">9. Configuration Notes</h2>
 <p>The main selection budget is controlled by <code>--budget</code>. Larger pools and larger candidate windows increase selection cost because ZIP repeatedly computes compression ratios for candidate combinations.</p>
 <h2 id="10-experimental-highlights">10. Experimental Highlights</h2>
-<ul>
-<li>The paper studies why sample combinations matter for LLM data selection.</li>
-<li>ZIP is designed to reduce information redundancy rather than scoring each sample independently.</li>
-<li>The selected subset can be used with standard instruction-tuning and evaluation pipelines.</li>
-</ul>
+<p>The paper studies why sample combinations matter for LLM data selection. ZIP is designed to reduce information redundancy rather than scoring each sample independently.</p>
+<table>
+<thead><tr>
+<th>Backbone</th>
+<th style="text-align:right">Random MT-Bench</th>
+<th style="text-align:right">Strongest listed non-ZIP baseline</th>
+<th style="text-align:right">ZIP MT-Bench</th>
+<th style="text-align:right">ZIP cost</th>
+<th style="text-align:right">Avg. token length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mistral-7B SFT</td>
+<td style="text-align:right">6.85</td>
+<td style="text-align:right">6.91 (Cluster)</td>
+<td style="text-align:right"><strong>7.08</strong></td>
+<td style="text-align:right">4.5h CPU-only</td>
+<td style="text-align:right">543</td>
+</tr>
+<tr>
+<td>Llama-3-8B SFT</td>
+<td style="text-align:right">7.16</td>
+<td style="text-align:right">7.18 (Cluster)</td>
+<td style="text-align:right"><strong>7.28</strong></td>
+<td style="text-align:right">4.5h CPU-only</td>
+<td style="text-align:right">470</td>
+</tr>
+</tbody>
+</table>
+<p>The paper further reports that ZIP is among the least expensive non-random methods and does not require proprietary LLM scoring or a proxy model. Its entropy-law analysis shows that lower compression ratio correlates with better downstream performance, supporting the idea that selected sample combinations should reduce redundant information.</p>
+<p><strong>Conclusion:</strong> ZIP improves instruction-tuning data selection by modeling subset-level information overlap, not only individual-sample quality.</p>
 <h2 id="11-notes-for-maintainers">11. Notes For Maintainers</h2>
 <ul>
 <li>Keep <code>ZIP.py</code> focused on data selection; do not add alignment-framework assumptions to the core selector.</li>
