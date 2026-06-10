@@ -94,6 +94,13 @@ The main selection budget is controlled by `--budget`. Larger pools and larger c
 
 ## 10. Experimental Highlights
 
+![ZIP SFT-stage data selection results](docs/assets/zip-sft-results.png)
+
+![ZIP RLHF and entropy-law results](docs/assets/zip-rlhf-entropy-results.png)
+
+The SFT and RLHF tables above show ZIP's MT-Bench improvements and low selection cost, while the entropy-law plots visualize the compression/performance relationship.
+
+
 The paper studies why sample combinations matter for LLM data selection. ZIP is designed to reduce information redundancy rather than scoring each sample independently.
 
 | Backbone | Random MT-Bench | Strongest listed non-ZIP baseline | ZIP MT-Bench | ZIP cost | Avg. token length |
@@ -126,5 +133,6 @@ If you find this project helpful, please cite:
 
 ## 13. Contact
 
-- First author: Mingjia Yin.
+- Equal-contribution authors: Mingjia Yin (`mingjia-yin@ustc.edu.cn`), Chuhan Wu (`wuchuhan1@huawei.com`), Yufei Wang (no verified public email found), and Hao Wang (`wanghao3@ustc.edu.cn`).
+- Corresponding authors: Chuhan Wu (`wuchuhan1@huawei.com`), Hao Wang (`wanghao3@ustc.edu.cn`), Ruiming Tang (`tangruiming@huawei.com`), and Enhong Chen (`cheneh@ustc.edu.cn`).
 - Repository questions: please open a GitHub issue in this repository.

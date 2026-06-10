@@ -156,6 +156,9 @@
 <h2 id="9-configuration-notes">9. Configuration Notes</h2>
 <p>The main selection budget is controlled by <code>--budget</code>. Larger pools and larger candidate windows increase selection cost because ZIP repeatedly computes compression ratios for candidate combinations.</p>
 <h2 id="10-experimental-highlights">10. Experimental Highlights</h2>
+<p><img src="assets/zip-sft-results.png" alt="ZIP SFT-stage data selection results"></p>
+<p><img src="assets/zip-rlhf-entropy-results.png" alt="ZIP RLHF and entropy-law results"></p>
+<p>The SFT and RLHF tables above show ZIP's MT-Bench improvements and low selection cost, while the entropy-law plots visualize the compression/performance relationship.</p>
 <p>The paper studies why sample combinations matter for LLM data selection. ZIP is designed to reduce information redundancy rather than scoring each sample independently.</p>
 <table>
 <thead><tr>
@@ -204,7 +207,8 @@
 }</code></pre>
 <h2 id="13-contact">13. Contact</h2>
 <ul>
-<li>First author: Mingjia Yin.</li>
+<li>Equal-contribution authors: Mingjia Yin (<code>mingjia-yin@ustc.edu.cn</code>), Chuhan Wu (<code>wuchuhan1@huawei.com</code>), Yufei Wang (no verified public email found), and Hao Wang (<code>wanghao3@ustc.edu.cn</code>).</li>
+<li>Corresponding authors: Chuhan Wu (<code>wuchuhan1@huawei.com</code>), Hao Wang (<code>wanghao3@ustc.edu.cn</code>), Ruiming Tang (<code>tangruiming@huawei.com</code>), and Enhong Chen (<code>cheneh@ustc.edu.cn</code>).</li>
 <li>Repository questions: please open a GitHub issue in this repository.</li>
 </ul>
 
