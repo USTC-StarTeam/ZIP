@@ -3,75 +3,198 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZIP | Entropy Law</title>
+  <title>ZIP</title>
   <style>
-    :root { color-scheme: light; --ink: #172033; --muted: #5b6576; --line: #d8dee9; --accent: #2563eb; --soft: #eef4ff; }
+    :root {
+      --ink: #172033;
+      --muted: #53657a;
+      --line: #d8e0ea;
+      --paper: #ffffff;
+      --soft: #f3f6fa;
+      --blue: #2454d6;
+      --green: #087443;
+      --gold: #9f6700;
+    }
     * { box-sizing: border-box; }
-    html, body { overflow-x: hidden; }
-    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #f7f9fc; line-height: 1.62; }
-    main { max-width: 1120px; margin: 0 auto; padding: 48px 22px 72px; }
-    header { padding: 28px 0 18px; border-bottom: 1px solid var(--line); }
-    .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 13px; }
-    h1 { margin: 8px 0 12px; font-size: clamp(34px, 6vw, 64px); line-height: 1.02; letter-spacing: 0; }
-    h2 { margin-top: 42px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 27px; }
-    p, h1, h2, .paper, .button { overflow-wrap: anywhere; }
-    p { max-width: 920px; }
-    a { color: #1d4ed8; }
-    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-    .button { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 13px; border-radius: 8px; border: 1px solid #b8c7e6; background: white; color: #1d4ed8; text-decoration: none; font-weight: 700; }
-    .paper { display: block; max-width: 100%; width: 100%; white-space: normal; word-break: break-word; font-size: 18px; background: var(--soft); border-left: 4px solid var(--accent); padding: 16px 18px; }
-    img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: white; }
-    code, pre { font-family: Consolas, Menlo, monospace; }
-    pre { overflow-x: auto; background: #111827; color: #f8fafc; padding: 16px; border-radius: 8px; }
-    ul { padding-left: 22px; }
-    @media (max-width: 640px) {
-      main { padding: 34px 18px 56px; }
-      .links { display: grid; grid-template-columns: minmax(0, 1fr); }
-      .button { justify-content: center; min-width: 0; padding: 7px 8px; font-size: 15px; }
-      .paper { font-size: 14px; line-height: 1.55; padding: 14px 12px; }
+    html, body { margin: 0; overflow-x: hidden; }
+    body {
+      color: var(--ink);
+      background: linear-gradient(180deg, #ffffff 0, #f6f8fb 360px, #eef2f7 100%);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.62;
+    }
+    a { color: var(--blue); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 18px; }
+    .site-header { background: #fff; border-bottom: 1px solid var(--line); }
+    nav { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 18px; font-size: 14px; }
+    nav .brand { color: var(--ink); font-weight: 900; }
+    nav .nav-links { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero { padding: 48px 0 34px; }
+    .eyebrow { margin: 0 0 10px; color: var(--green); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    h1 { margin: 0; max-width: 980px; font-size: clamp(32px, 5vw, 56px); line-height: 1.06; letter-spacing: 0; overflow-wrap: anywhere; word-break: break-word; }
+    .subtitle { max-width: 860px; margin: 18px 0 0; color: var(--muted); font-size: 18px; }
+    .quick-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 38px; border: 1px solid #b9c5d8; border-radius: 6px;
+      padding: 0 13px; background: var(--paper); color: #263650; font-size: 14px;
+    }
+    main.wrap { padding: 34px 18px 64px; }
+    .toc {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px; margin: 0 0 26px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,.78);
+    }
+    .toc a { font-size: 13px; padding: 6px 8px; border-radius: 6px; background: #eef3fb; color: #26405f; }
+    .content {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 18px 44px rgba(15, 23, 42, .06);
+    }
+    h2 { margin: 42px 0 14px; padding-top: 4px; border-top: 1px solid var(--line); font-size: 30px; line-height: 1.22; letter-spacing: 0; }
+    h2:first-child { margin-top: 0; border-top: 0; }
+    h3 { margin: 28px 0 10px; font-size: 22px; line-height: 1.25; letter-spacing: 0; }
+    p, li, td, th, .nav-links a, .toc a, .button { overflow-wrap: anywhere; word-break: break-word; }
+    p { margin: 0 0 16px; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 6px 0; }
+    img { max-width: 100%; height: auto; border-radius: 6px; }
+    p > img:only-child { display: block; margin: 18px auto; border: 1px solid var(--line); box-shadow: 0 12px 30px rgba(15, 23, 42, .08); }
+    pre { max-width: 100%; overflow-x: auto; white-space: pre; margin: 16px 0; padding: 16px; border-radius: 8px; background: #111827; color: #e5e7eb; line-height: 1.5; }
+    code { font-family: "Cascadia Mono", Consolas, monospace; font-size: .92em; }
+    :not(pre) > code { padding: .12em .35em; border-radius: 4px; background: #eef2f7; color: #17304f; }
+    table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 16px 0; }
+    th, td { padding: 9px 10px; border: 1px solid var(--line); vertical-align: top; }
+    th { background: #f4f7fb; text-align: left; }
+    blockquote { margin: 18px 0; padding: 10px 16px; border-left: 4px solid var(--blue); background: #f4f7fb; color: #334155; }
+    footer { padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 760px) {
+      .wrap { padding: 0 12px; }
+      nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      nav .nav-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+      nav .nav-links a { min-width: 0; padding: 6px 8px; border-radius: 6px; background: #eef3fb; font-size: 13px; line-height: 1.25; }
+      .hero { padding: 34px 0 26px; }
+      h1 { max-width: 100%; font-size: 30px; }
+      .subtitle { font-size: 16px; }
+      .quick-links { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .button { min-width: 0; width: 100%; padding: 7px 8px; }
+      .content { padding: 22px 16px; }
+      main.wrap { padding: 28px 12px 56px; }
+      h2 { font-size: 25px; }
+      h3 { font-size: 20px; }
+      pre { white-space: pre-wrap; word-break: break-word; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <div class="eyebrow">arXiv 2024 · Data Selection · LLM Alignment</div>
-      <h1>ZIP</h1>
-      <p>Entropy-law data selection for reducing redundancy in instruction-tuning pools while preserving useful learning signals.</p>
-      <div class="links">
-        <a class="button" href="https://arxiv.org/abs/2407.06645">Paper</a>
-        <a class="button" href="https://arxiv.org/pdf/2407.06645">PDF</a>
-        <a class="button" href="https://github.com/USTC-StarTeam/ZIP">Code</a>
-        <a class="button" href="https://github.com/USTC-StarTeam/ZIP#12-citation">Citation</a>
+  <header class="site-header">
+    <nav class="wrap">
+      <a class="brand" href="https://github.com/USTC-StarTeam/ZIP">USTC-StarTeam/ZIP</a>
+      <div class="nav-links"><a href="#1-paper">1. Paper</a><a href="#2-highlights">2. Highlights</a><a href="#3-method-at-a-glance">3. Method At A Glance</a><a href="#4-repository-structure">4. Repository Structure</a><a href="#5-installation">5. Installation</a><a href="#6-data">6. Data</a><a href="#7-quick-start">7. Quick Start</a><a href="#8-llm-alignment-and-evaluation">8. LLM Alignment And Evaluation</a><a href="#9-configuration-notes">9. Configuration Notes</a><a href="#10-experimental-highlights">10. Experimental Highlights</a><a href="#11-notes-for-maintainers">11. Notes For Maintainers</a><a href="#12-citation">12. Citation</a><a href="#13-contact">13. Contact</a></div>
+    </nav>
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Academic Project Page</p>
+        <h1>ZIP</h1>
+        <p class="subtitle">ZIP selects instruction data through an entropy-law view of compression: a useful selected subset should reduce redundant information while preserving diverse learning signals for LLM alignment. This repository provides the ZIP selection script and the expected ShareGPT-style input format used by the paper experiments.</p>
+        <div class="quick-links"><a class="button" href="https://arxiv.org/abs/2407.06645">Paper</a><a class="button" href="https://arxiv.org/pdf/2407.06645">PDF</a><a class="button" href="https://ustc-starteam.github.io/ZIP/">Project Page</a><a class="button" href="#12-citation">Citation</a><a class="button" href="https://github.com/USTC-StarTeam/ZIP">GitHub Repo</a></div>
       </div>
-    </header>
-
-    <section>
-      <h2>1. Paper</h2>
-      <p class="paper">Mingjia Yin, Chuhan Wu, Yufei Wang, Hao Wang, Wei Guo, Yasheng Wang, Yong Liu, Ruiming Tang, Defu Lian, and Enhong Chen. <strong>Entropy Law: The Story Behind Data Compression and LLM Performance</strong>. arXiv preprint arXiv:2407.06645, 2024.</p>
-      <p>ZIP selects data by evaluating how candidates change the compressed representation of the selected pool, aiming to reduce redundancy rather than only scoring samples independently.</p>
     </section>
-
-    <section>
-      <h2>2. Method At A Glance</h2>
-      <img src="assets/motivation.png" alt="ZIP motivation and entropy-law data selection">
-    </section>
-
-    <section>
-      <h2>3. Usage</h2>
-      <pre><code>python ZIP.py --data_path data_pool.json --save_path selected_data.json --budget 10000</code></pre>
-      <p>The selected file can be used by downstream alignment tools such as Axolotl, with MT-Bench evaluation available through FastChat.</p>
-    </section>
-
-    <section>
-      <h2>4. Citation</h2>
-      <pre><code>@article{yin2024entropy,
+  </header>
+  <main class="wrap">
+    <div class="toc"><a href="#1-paper">1. Paper</a><a href="#2-highlights">2. Highlights</a><a href="#3-method-at-a-glance">3. Method At A Glance</a><a href="#4-repository-structure">4. Repository Structure</a><a href="#5-installation">5. Installation</a><a href="#6-data">6. Data</a><a href="#7-quick-start">7. Quick Start</a><a href="#8-llm-alignment-and-evaluation">8. LLM Alignment And Evaluation</a><a href="#9-configuration-notes">9. Configuration Notes</a><a href="#10-experimental-highlights">10. Experimental Highlights</a><a href="#11-notes-for-maintainers">11. Notes For Maintainers</a><a href="#12-citation">12. Citation</a><a href="#13-contact">13. Contact</a></div>
+    <article class="content">
+<p>Official implementation for <strong>Entropy Law: The Story Behind Data Compression and LLM Performance</strong>.</p>
+<p><a href="https://arxiv.org/abs/2407.06645"><img src="https://img.shields.io/badge/arXiv-2407.06645-b31b1b.svg" alt="arXiv"></a>
+<a href="https://ustc-starteam.github.io/ZIP/"><img src="https://img.shields.io/badge/Project-Page-blue" alt="Project Page"></a>
+<a href="https://github.com/USTC-StarTeam/ZIP/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a></p>
+<h2 id="1-paper">1. Paper</h2>
+<p>Mingjia Yin, Chuhan Wu, Yufei Wang, Hao Wang, Wei Guo, Yasheng Wang, Yong Liu, Ruiming Tang, Defu Lian, and Enhong Chen. <strong>Entropy Law: The Story Behind Data Compression and LLM Performance</strong>. arXiv preprint arXiv:2407.06645, 2024.</p>
+<p><a href="https://arxiv.org/abs/2407.06645">Paper</a> / <a href="https://arxiv.org/pdf/2407.06645">PDF</a> / <a href="https://ustc-starteam.github.io/ZIP/">Project Page</a> / <a href="#12-citation">Citation</a></p>
+<p>ZIP selects instruction data through an entropy-law view of compression: a useful selected subset should reduce redundant information while preserving diverse learning signals for LLM alignment. This repository provides the ZIP selection script and the expected ShareGPT-style input format used by the paper experiments.</p>
+<h2 id="2-highlights">2. Highlights</h2>
+<ul>
+<li>Uses compression ratio as a data-selection signal for instruction tuning pools.</li>
+<li>Selects data in stages, combining global candidate filtering with local greedy selection.</li>
+<li>Works with ShareGPT-style conversation records and can be plugged into existing alignment stacks.</li>
+<li>Keeps alignment and evaluation decoupled: ZIP selects data, while Axolotl and FastChat can handle SFT and MT-Bench evaluation.</li>
+</ul>
+<h2 id="3-method-at-a-glance">3. Method At A Glance</h2>
+<p><img src="assets/motivation.png" alt="ZIP motivation and entropy-law data selection"></p>
+<p>The key idea is to avoid picking a collection of individually high-quality but mutually redundant samples. ZIP repeatedly evaluates how a candidate changes the compressed representation of the selected pool, then adds samples that improve information coverage under the target budget.</p>
+<h2 id="4-repository-structure">4. Repository Structure</h2>
+<pre><code class="language-text">.
+├── ZIP.py                  # ZIP data-selection implementation
+├── assets/motivation.png   # Motivation figure from the paper
+├── docs/                   # GitHub Pages project page
+└── README.md</code></pre>
+<h2 id="5-installation">5. Installation</h2>
+<p>Install the Python dependencies required by <code>ZIP.py</code>:</p>
+<pre><code class="language-bash">pip install torch</code></pre>
+<p>The repository keeps ZIP itself lightweight. Alignment and evaluation dependencies are managed by the external tools described below.</p>
+<h2 id="6-data">6. Data</h2>
+<p>The data pool used in the paper can be found in the <a href="https://huggingface.co/datasets/AndrewZeng/deita_sota_pool">DEITA SOTA pool</a>, provided by the <a href="https://github.com/hkust-nlp/deita">DEITA</a> project.</p>
+<p>ZIP currently expects ShareGPT-style records:</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 0,
+    &quot;conversations&quot;: [
+      {&quot;from&quot;: &quot;human&quot;, &quot;value&quot;: &quot;XXX&quot;},
+      {&quot;from&quot;: &quot;gpt&quot;, &quot;value&quot;: &quot;XXX&quot;}
+    ],
+    &quot;source&quot;: &quot;ShareGPT&quot;
+  }
+]</code></pre>
+<h2 id="7-quick-start">7. Quick Start</h2>
+<p>Run data selection with a target budget:</p>
+<pre><code class="language-bash">python ZIP.py --data_path data_pool.json --save_path selected_data.json --budget 10000</code></pre>
+<p>Optional parameters in <code>ZIP.py</code> include:</p>
+<ul>
+<li><code>--k1</code>: number of globally filtered candidates per stage.</li>
+<li><code>--k2</code>: number of second-stage candidates.</li>
+<li><code>--k3</code>: number of final greedy selections per stage.</li>
+<li><code>--n_jobs</code>: worker count for compression-ratio computation.</li>
+</ul>
+<h2 id="8-llm-alignment-and-evaluation">8. LLM Alignment And Evaluation</h2>
+<ul>
+<li>Use <a href="https://github.com/axolotl-ai-cloud/axolotl">Axolotl</a> to align LLMs with ZIP-selected data.</li>
+<li>Use MT-Bench in <a href="https://github.com/lm-sys/FastChat">FastChat</a> to evaluate aligned models.</li>
+</ul>
+<p>ZIP writes the selected subset to <code>selected_data.json</code>; downstream alignment tools should consume that file according to their own training format.</p>
+<h2 id="9-configuration-notes">9. Configuration Notes</h2>
+<p>The main selection budget is controlled by <code>--budget</code>. Larger pools and larger candidate windows increase selection cost because ZIP repeatedly computes compression ratios for candidate combinations.</p>
+<h2 id="10-experimental-highlights">10. Experimental Highlights</h2>
+<ul>
+<li>The paper studies why sample combinations matter for LLM data selection.</li>
+<li>ZIP is designed to reduce information redundancy rather than scoring each sample independently.</li>
+<li>The selected subset can be used with standard instruction-tuning and evaluation pipelines.</li>
+</ul>
+<h2 id="11-notes-for-maintainers">11. Notes For Maintainers</h2>
+<ul>
+<li>Keep <code>ZIP.py</code> focused on data selection; do not add alignment-framework assumptions to the core selector.</li>
+<li>If new input schemas are supported, document the schema and add a minimal conversion example.</li>
+<li>Keep external data links in this README in sync with the paper's data sources.</li>
+</ul>
+<h2 id="12-citation">12. Citation</h2>
+<p>If you find this project helpful, please cite:</p>
+<pre><code class="language-bibtex">@article{yin2024entropy,
   title={Entropy Law: The Story Behind Data Compression and LLM Performance},
   author={Yin, Mingjia and Wu, Chuhan and Wang, Yufei and Wang, Hao and Guo, Wei and Wang, Yasheng and Liu, Yong and Tang, Ruiming and Lian, Defu and Chen, Enhong},
   journal={arXiv preprint arXiv:2407.06645},
   year={2024}
 }</code></pre>
-    </section>
+<h2 id="13-contact">13. Contact</h2>
+<ul>
+<li>First author: Mingjia Yin.</li>
+<li>Repository questions: please open a GitHub issue in this repository.</li>
+</ul>
+
+    </article>
   </main>
+  <footer>
+    <div class="wrap">This project page mirrors the public-facing README content for quick paper, code, result, citation, and contact access.</div>
+  </footer>
 </body>
 </html>
