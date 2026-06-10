@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZIP | Entropy Law</title>
+  <style>
+    :root { color-scheme: light; --ink: #172033; --muted: #5b6576; --line: #d8dee9; --accent: #2563eb; --soft: #eef4ff; }
+    * { box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #f7f9fc; line-height: 1.62; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 22px 72px; }
+    header { padding: 28px 0 18px; border-bottom: 1px solid var(--line); }
+    .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 13px; }
+    h1 { margin: 8px 0 12px; font-size: clamp(34px, 6vw, 64px); line-height: 1.02; letter-spacing: 0; }
+    h2 { margin-top: 42px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 27px; }
+    p, h1, h2, .paper, .button { overflow-wrap: anywhere; }
+    p { max-width: 920px; }
+    a { color: #1d4ed8; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .button { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 13px; border-radius: 8px; border: 1px solid #b8c7e6; background: white; color: #1d4ed8; text-decoration: none; font-weight: 700; }
+    .paper { display: block; max-width: 100%; width: 100%; white-space: normal; word-break: break-word; font-size: 18px; background: var(--soft); border-left: 4px solid var(--accent); padding: 16px 18px; }
+    img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: white; }
+    code, pre { font-family: Consolas, Menlo, monospace; }
+    pre { overflow-x: auto; background: #111827; color: #f8fafc; padding: 16px; border-radius: 8px; }
+    ul { padding-left: 22px; }
+    @media (max-width: 640px) {
+      main { padding: 34px 18px 56px; }
+      .links { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .button { justify-content: center; min-width: 0; padding: 7px 8px; font-size: 15px; }
+      .paper { font-size: 14px; line-height: 1.55; padding: 14px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">arXiv 2024 · Data Selection · LLM Alignment</div>
+      <h1>ZIP</h1>
+      <p>Entropy-law data selection for reducing redundancy in instruction-tuning pools while preserving useful learning signals.</p>
+      <div class="links">
+        <a class="button" href="https://arxiv.org/abs/2407.06645">Paper</a>
+        <a class="button" href="https://arxiv.org/pdf/2407.06645">PDF</a>
+        <a class="button" href="https://github.com/USTC-StarTeam/ZIP">Code</a>
+        <a class="button" href="https://github.com/USTC-StarTeam/ZIP#12-citation">Citation</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>1. Paper</h2>
+      <p class="paper">Mingjia Yin, Chuhan Wu, Yufei Wang, Hao Wang, Wei Guo, Yasheng Wang, Yong Liu, Ruiming Tang, Defu Lian, and Enhong Chen. <strong>Entropy Law: The Story Behind Data Compression and LLM Performance</strong>. arXiv preprint arXiv:2407.06645, 2024.</p>
+      <p>ZIP selects data by evaluating how candidates change the compressed representation of the selected pool, aiming to reduce redundancy rather than only scoring samples independently.</p>
+    </section>
+
+    <section>
+      <h2>2. Method At A Glance</h2>
+      <img src="assets/motivation.png" alt="ZIP motivation and entropy-law data selection">
+    </section>
+
+    <section>
+      <h2>3. Usage</h2>
+      <pre><code>python ZIP.py --data_path data_pool.json --save_path selected_data.json --budget 10000</code></pre>
+      <p>The selected file can be used by downstream alignment tools such as Axolotl, with MT-Bench evaluation available through FastChat.</p>
+    </section>
+
+    <section>
+      <h2>4. Citation</h2>
+      <pre><code>@article{yin2024entropy,
+  title={Entropy Law: The Story Behind Data Compression and LLM Performance},
+  author={Yin, Mingjia and Wu, Chuhan and Wang, Yufei and Wang, Hao and Guo, Wei and Wang, Yasheng and Liu, Yong and Tang, Ruiming and Lian, Defu and Chen, Enhong},
+  journal={arXiv preprint arXiv:2407.06645},
+  year={2024}
+}</code></pre>
+    </section>
+  </main>
+</body>
+</html>

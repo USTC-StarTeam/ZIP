@@ -1,71 +1,123 @@
 # ZIP
 
-![Motivation](assets/motivation.png)
+Official implementation for **Entropy Law: The Story Behind Data Compression and LLM Performance**.
 
-This is the project for our paper [Entropy Law: The Story Behind Data Compression and LLM Performance](https://arxiv.org/abs/2407.06645).
+[![arXiv](https://img.shields.io/badge/arXiv-2407.06645-b31b1b.svg)](https://arxiv.org/abs/2407.06645)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://ustc-starteam.github.io/ZIP/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+## 1. Paper
 
-## Quick start
+Mingjia Yin, Chuhan Wu, Yufei Wang, Hao Wang, Wei Guo, Yasheng Wang, Yong Liu, Ruiming Tang, Defu Lian, and Enhong Chen. **Entropy Law: The Story Behind Data Compression and LLM Performance**. arXiv preprint arXiv:2407.06645, 2024.
 
+[Paper](https://arxiv.org/abs/2407.06645) / [PDF](https://arxiv.org/pdf/2407.06645) / [Project Page](https://ustc-starteam.github.io/ZIP/) / [Citation](#12-citation)
 
-### Data pool
+ZIP selects instruction data through an entropy-law view of compression: a useful selected subset should reduce redundant information while preserving diverse learning signals for LLM alignment. This repository provides the ZIP selection script and the expected ShareGPT-style input format used by the paper experiments.
 
-The data pool used in the paper can be found in [here](https://huggingface.co/datasets/AndrewZeng/deita_sota_pool), which is provided by the [DEITA](https://github.com/hkust-nlp/deita). And we appreciate their contribution. If you want to use ZIP to select your data, we only currently support the following sharegpt format:
+## 2. Highlights
+
+- Uses compression ratio as a data-selection signal for instruction tuning pools.
+- Selects data in stages, combining global candidate filtering with local greedy selection.
+- Works with ShareGPT-style conversation records and can be plugged into existing alignment stacks.
+- Keeps alignment and evaluation decoupled: ZIP selects data, while Axolotl and FastChat can handle SFT and MT-Bench evaluation.
+
+## 3. Method At A Glance
+
+![ZIP motivation and entropy-law data selection](docs/assets/motivation.png)
+
+The key idea is to avoid picking a collection of individually high-quality but mutually redundant samples. ZIP repeatedly evaluates how a candidate changes the compressed representation of the selected pool, then adds samples that improve information coverage under the target budget.
+
+## 4. Repository Structure
+
+```text
+.
+├── ZIP.py                  # ZIP data-selection implementation
+├── assets/motivation.png   # Motivation figure from the paper
+├── docs/                   # GitHub Pages project page
+└── README.md
+```
+
+## 5. Installation
+
+Install the Python dependencies required by `ZIP.py`:
+
+```bash
+pip install torch
+```
+
+The repository keeps ZIP itself lightweight. Alignment and evaluation dependencies are managed by the external tools described below.
+
+## 6. Data
+
+The data pool used in the paper can be found in the [DEITA SOTA pool](https://huggingface.co/datasets/AndrewZeng/deita_sota_pool), provided by the [DEITA](https://github.com/hkust-nlp/deita) project.
+
+ZIP currently expects ShareGPT-style records:
 
 ```json
 [
-    {
-        "id": 0,
-        "conversations":[
-            {
-                "from": "human",
-                "value": "XXX",
-            },
-            {
-                "from": "gpt",
-                "value": "XXX",
-            }
-        ],
-        "source": "ShareGPT"
-    },
-    {
-        "id": 1,
-        "conversations":[
-            {
-                "from": "human",
-                "value": "XXX",
-            },
-            {
-                "from": "gpt",
-                "value": "XXX",
-            }
-        ],
-        "source": "ShareGPT"
-    }
+  {
+    "id": 0,
+    "conversations": [
+      {"from": "human", "value": "XXX"},
+      {"from": "gpt", "value": "XXX"}
+    ],
+    "source": "ShareGPT"
+  }
 ]
 ```
-### Perform data selection
 
-```shell
-python ZIP.py --data_path data_pool.json --save_path selected_data.json --budget 10000 
+## 7. Quick Start
+
+Run data selection with a target budget:
+
+```bash
+python ZIP.py --data_path data_pool.json --save_path selected_data.json --budget 10000
 ```
 
-### LLM alignment & evaluation
+Optional parameters in `ZIP.py` include:
 
-- We use [Axolotl](https://github.com/axolotl-ai-cloud/axolotl) to align LLMs with the selected data.
-- Then we use MT-bench in [FastChat](https://github.com/lm-sys/FastChat) to evaluate the aligned LLMs.
+- `--k1`: number of globally filtered candidates per stage.
+- `--k2`: number of second-stage candidates.
+- `--k3`: number of final greedy selections per stage.
+- `--n_jobs`: worker count for compression-ratio computation.
 
-## Citation
-If you find the content of this project helpful, please cite our paper as follows:
-```
-@ARTICLE{2024arXiv240706645Y,
-       author = {{Yin}, Mingjia and {Wu}, Chuhan and {Wang}, Yufei and {Wang}, Hao and {Guo}, Wei and {Wang}, Yasheng and {Liu}, Yong and {Tang}, Ruiming and {Lian}, Defu and {Chen}, Enhong},
-        title = "{Entropy Law: The Story Behind Data Compression and LLM Performance}",
-      journal = {arXiv e-prints},
-     keywords = {Computer Science - Machine Learning, Computer Science - Computation and Language},
-         year = 2024,
-        month = jul,
-          doi = {10.48550/arXiv.2407.06645},
-       eprint = {2407.06645},
+## 8. LLM Alignment And Evaluation
+
+- Use [Axolotl](https://github.com/axolotl-ai-cloud/axolotl) to align LLMs with ZIP-selected data.
+- Use MT-Bench in [FastChat](https://github.com/lm-sys/FastChat) to evaluate aligned models.
+
+ZIP writes the selected subset to `selected_data.json`; downstream alignment tools should consume that file according to their own training format.
+
+## 9. Configuration Notes
+
+The main selection budget is controlled by `--budget`. Larger pools and larger candidate windows increase selection cost because ZIP repeatedly computes compression ratios for candidate combinations.
+
+## 10. Experimental Highlights
+
+- The paper studies why sample combinations matter for LLM data selection.
+- ZIP is designed to reduce information redundancy rather than scoring each sample independently.
+- The selected subset can be used with standard instruction-tuning and evaluation pipelines.
+
+## 11. Notes For Maintainers
+
+- Keep `ZIP.py` focused on data selection; do not add alignment-framework assumptions to the core selector.
+- If new input schemas are supported, document the schema and add a minimal conversion example.
+- Keep external data links in this README in sync with the paper's data sources.
+
+## 12. Citation
+
+If you find this project helpful, please cite:
+
+```bibtex
+@article{yin2024entropy,
+  title={Entropy Law: The Story Behind Data Compression and LLM Performance},
+  author={Yin, Mingjia and Wu, Chuhan and Wang, Yufei and Wang, Hao and Guo, Wei and Wang, Yasheng and Liu, Yong and Tang, Ruiming and Lian, Defu and Chen, Enhong},
+  journal={arXiv preprint arXiv:2407.06645},
+  year={2024}
 }
 ```
+
+## 13. Contact
+
+- First author: Mingjia Yin.
+- Repository questions: please open a GitHub issue in this repository.
